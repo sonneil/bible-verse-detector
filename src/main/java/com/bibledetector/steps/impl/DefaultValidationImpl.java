@@ -26,7 +26,7 @@ public class DefaultValidationImpl implements Validation {
     private boolean validInput(ValidationInput validationInput) {
         return !(validationInput.book() == null ||
                 validationInput.book().isEmpty() ||
-                !BooksUtils.bibleBooks().contains(validationInput.book()));
+                !BooksUtils.bibleBooks().contains(validationInput.book().toLowerCase()));
     }
 
     @Override

@@ -188,6 +188,9 @@ public class NumberUtils {
         numbersDictionary.put("primera de", "1");
         numbersDictionary.put("segunda de", "2");
         numbersDictionary.put("tercera de", "3");
+        numbersDictionary.put("primero de", "1");
+        numbersDictionary.put("segundo de", "2");
+        numbersDictionary.put("tercero de", "3");
 
         return numbersDictionary;
     }

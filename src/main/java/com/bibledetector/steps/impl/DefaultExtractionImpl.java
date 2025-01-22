@@ -8,6 +8,7 @@ import com.bibledetector.steps.types.impl.ExtractionInput;
 import com.bibledetector.steps.types.impl.ExtractionResult;
 import com.bibledetector.utils.BooksUtils;
 import com.bibledetector.utils.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class DefaultExtractionImpl implements Extraction {
 
         String text = NumberUtils.convertAllNumbersToDigits(((ExtractionInput) extractionInput).text());
 
-        String book = BooksUtils.extractBibleBookFromText(text);
+        String book = StringUtils.capitalize(BooksUtils.extractBibleBookFromText(text));
         String chapter = BooksUtils.extractChapter(text);
         String verse = BooksUtils.extractVerse(text);
 

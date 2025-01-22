@@ -2,9 +2,7 @@ package com.bibledetector.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class BooksUtils {
 
@@ -13,11 +11,24 @@ public class BooksUtils {
 
         text = text.toLowerCase();
 
-        List<String> books = bibleBooks();
-        Collections.reverse(books);
-        for (String book : books) {
-            if (text.contains(book)) {
-                return book;
+        ArrayList<String> possibleKeys = possibleKeys();
+        for (String bookKey : possibleKeys) {
+            if (text.contains(bookKey)) {
+                return booksMap().get(bookKey);
+            }
+        }
+        return "";
+    }
+
+    public static String extractBookKeyFromText(String text) {
+        if (text == null) return null;
+
+        text = text.toLowerCase();
+
+        ArrayList<String> possibleKeys = possibleKeys();
+        for (String bookKey : possibleKeys) {
+            if (text.contains(bookKey)) {
+                return bookKey;
             }
         }
         return "";
@@ -77,11 +88,11 @@ public class BooksUtils {
         bibleBooks.add("daniel");
         bibleBooks.add("oseas");
         bibleBooks.add("joel");
-        bibleBooks.add("amos");
+        bibleBooks.add("amós");
         bibleBooks.add("abdías");
         bibleBooks.add("jonás");
         bibleBooks.add("miqueas");
-        bibleBooks.add("nahúm");
+        bibleBooks.add("nahum");
         bibleBooks.add("habacuc");
         bibleBooks.add("sofonías");
         bibleBooks.add("hageo");
@@ -120,8 +131,109 @@ public class BooksUtils {
         return bibleBooks;
     }
 
+    public static LinkedHashMap<String, String> booksMap() {
+        LinkedHashMap<String, String> bibleBooks = new LinkedHashMap<>();
+
+        // Libros del Antiguo Testamento
+        bibleBooks.put("génesis", "Génesis");
+        bibleBooks.put("éxodo", "Éxodo");
+        bibleBooks.put("levítico", "Levítico");
+        bibleBooks.put("números", "Números");
+        bibleBooks.put("deuteronomio", "Deuteronomio");
+        bibleBooks.put("josué", "Josué");
+        bibleBooks.put("jueces", "Jueces");
+        bibleBooks.put("rut", "Rut");
+        bibleBooks.put("1 samuel", "1 Samuel");
+        bibleBooks.put("2 samuel", "2 Samuel");
+        bibleBooks.put("1 reyes", "1 Reyes");
+        bibleBooks.put("1 redes", "1 Reyes");
+        bibleBooks.put("1 reses", "1 Reyes");
+        bibleBooks.put("2 reyes", "2 Reyes");
+        bibleBooks.put("2 redes", "2 Reyes");
+        bibleBooks.put("2 reses", "2 Reyes");
+        bibleBooks.put("1 crónicas", "1 Crónicas");
+        bibleBooks.put("2 crónicas", "2 Crónicas");
+        bibleBooks.put("esdras", "Esdras");
+        bibleBooks.put("nehemías", "Nehemías");
+        bibleBooks.put("ester", "Ester");
+        bibleBooks.put("job", "Job");
+        bibleBooks.put("salmo", "Salmos");
+        bibleBooks.put("salmos", "Salmos");
+        bibleBooks.put("proverbios", "Proverbios");
+        bibleBooks.put("eclesiastés", "Eclesiastés");
+        bibleBooks.put("cantares", "Cantares");
+        bibleBooks.put("isaías", "Isaías");
+        bibleBooks.put("jeremías", "Jeremías");
+        bibleBooks.put("lamentaciones", "Lamentaciones");
+        bibleBooks.put("ezequiel", "Ezequiel");
+        bibleBooks.put("daniel", "Daniel");
+        bibleBooks.put("oseas", "Oseas");
+        bibleBooks.put("óseas", "Oseas");
+        bibleBooks.put("o sea", "Oseas");
+        bibleBooks.put("o seas", "Oseas");
+        bibleBooks.put("poseas", "Oseas");
+        bibleBooks.put("sea", "Oseas");
+        bibleBooks.put("joel", "Joel");
+        bibleBooks.put("amós", "Amós");
+        bibleBooks.put("amos", "Amós");
+        bibleBooks.put("ambos", "Amós");
+        bibleBooks.put("abdías", "Abdías");
+        bibleBooks.put("jonás", "Jonás");
+        bibleBooks.put("jonas", "Jonás");
+        bibleBooks.put("miqueas", "Miqueas");
+        bibleBooks.put("mi que has", "Miqueas");
+        bibleBooks.put("mi ikea", "Miqueas");
+        bibleBooks.put("mi ikeas", "Miqueas");
+        bibleBooks.put("mi quedas", "Miqueas");
+        bibleBooks.put("nahum", "Nahum");
+        bibleBooks.put("habacuc", "Habacuc");
+        bibleBooks.put("sofonías", "Sofonías");
+        bibleBooks.put("sofá niñas", "Sofonías");
+        bibleBooks.put("sofá niños", "Sofonías");
+        bibleBooks.put("suponías", "Sofonías");
+        bibleBooks.put("suponía", "Sofonías");
+        bibleBooks.put("age ó", "Hageo");
+        bibleBooks.put("page ó", "Hageo");
+        bibleBooks.put("age o", "Hageo");
+        bibleBooks.put("page o", "Hageo");
+        bibleBooks.put("hageo", "Hageo");
+        bibleBooks.put("zacarías", "Zacarías");
+        bibleBooks.put("malaquías", "Malaquías");
+
+        // Libros del Nuevo Testamento
+        bibleBooks.put("mateo", "Mateo");
+        bibleBooks.put("marcos", "Marcos");
+        bibleBooks.put("lucas", "Lucas");
+        bibleBooks.put("juan", "Juan");
+        bibleBooks.put("hechos", "Hechos");
+        bibleBooks.put("romanos", "Romanos");
+        bibleBooks.put("1 corintios", "1 Corintios");
+        bibleBooks.put("2 corintios", "2 Corintios");
+        bibleBooks.put("gálatas", "Gálatas");
+        bibleBooks.put("efesios", "Efesios");
+        bibleBooks.put("filipenses", "Filipenses");
+        bibleBooks.put("colosenses", "Colosenses");
+        bibleBooks.put("1 tesalonicenses", "1 Tesalonicenses");
+        bibleBooks.put("2 tesalonicenses", "2 Tesalonicenses");
+        bibleBooks.put("1 timoteo", "1 Timoteo");
+        bibleBooks.put("2 timoteo", "2 Timoteo");
+        bibleBooks.put("tito", "Tito");
+        bibleBooks.put("filemón", "Filemón");
+        bibleBooks.put("hebreos", "Hebreos");
+        bibleBooks.put("santiago", "Santiago");
+        bibleBooks.put("1 pedro", "1 Pedro");
+        bibleBooks.put("2 pedro", "2 Pedro");
+        bibleBooks.put("1 juan", "1 Juan");
+        bibleBooks.put("2 juan", "2 Juan");
+        bibleBooks.put("3 juan", "3 Juan");
+        bibleBooks.put("judas", "Judas");
+        bibleBooks.put("apocalipsis", "Apocalipsis");
+
+        return bibleBooks;
+    }
+
     public static String extractChapter(String text) {
-        text = StringUtils.remove(text, extractBibleBookFromText(text));
+        text = StringUtils.remove(text, extractBookKeyFromText(text));
 
         List<Integer> numbersInText = extractNumbers(text);
         if (numbersInText.isEmpty()) return "";
@@ -130,12 +242,22 @@ public class BooksUtils {
     }
 
     public static String extractVerse(String text) {
-        text = StringUtils.remove(text, extractBibleBookFromText(text));
+        text = StringUtils.remove(text, extractBookKeyFromText(text));
         List<Integer> numbersInText = extractNumbers(text);
 
         if (numbersInText.isEmpty()) return "";
         if (numbersInText.size() == 1) return "";
         if (numbersInText.size() == 2) return numbersInText.get(1).toString();
         return numbersInText.get(1).toString() + "-" + numbersInText.get(2).toString();
+    }
+
+    public static ArrayList<String> possibleKeys() {
+        ArrayList<String> possibleKeys = new ArrayList<>();
+        ArrayList<Map.Entry<String, String>> books = new ArrayList<>(booksMap().entrySet().stream().toList());
+        Collections.reverse(books);
+        for (Map.Entry<String, String> bookEntry : books) {
+            possibleKeys.add(bookEntry.getKey());
+        }
+        return possibleKeys;
     }
 }
