@@ -21,9 +21,11 @@ It requires [OpenLP](https://openlp.org/) to be installed and running, remote in
 # How to Use
 1 - Download and extract "bible-detector.zip" located in bin folder.
 
-2 - Download [OpenLP](https://openlp.org/). At the moment writing this I'm using version 3.1.6.
+2 - Download and Install [OpenLP](https://openlp.org/). At the moment writing this I'm using version 3.1.6.
 
-3 - Open OpenLP and make sure:
+3 - Start OpenLP and make sure Remote Interface looks like this:
+
+![image](https://github.com/user-attachments/assets/2b3cd438-75ea-49e4-a385-fbdd8b9474e0)
 
     a - Remote Interface has "User Authentication" checked and it matches {GoLiveOpenLPConfig.OPENLP_USERNAME, GoLiveOpenLPConfig.OPENLP_PASSWORD}.
 
