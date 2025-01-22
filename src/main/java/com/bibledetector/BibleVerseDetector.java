@@ -2,6 +2,7 @@ package com.bibledetector;
 
 import com.bibledetector.flow.FlowHandler;
 import com.bibledetector.steps.impl.*;
+import com.bibledetector.steps.impl.actions.restclient.RestClient;
 
 import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;

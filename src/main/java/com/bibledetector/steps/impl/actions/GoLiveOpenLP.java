@@ -1,5 +1,6 @@
 package com.bibledetector.steps.impl.actions;
 
+import com.bibledetector.steps.impl.actions.restclient.RestClient;
 import com.bibledetector.steps.types.impl.ActionInput;
 import com.bibledetector.steps.types.step.Action;
 import jakarta.ws.rs.client.Client;
@@ -7,6 +8,7 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.Response;
+import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
 
 import static com.bibledetector.steps.impl.actions.config.GoLiveOpenLPConfig.*;
 
@@ -16,14 +18,13 @@ public class GoLiveOpenLP implements Action {
     private final WebTarget liveTarget;
 
     public GoLiveOpenLP() {
-        Client client = ClientBuilder.newClient();
-        this.authorizationTarget = client.target(BASE_URL).path(AUTHORIZATION_PATH);
-        this.liveTarget = client.target(BASE_URL).path(LIVE_PATH);
+        this.authorizationTarget = RestClient.getClient().target(BASE_URL).path(AUTHORIZATION_PATH);
+        this.liveTarget = RestClient.getClient().target(BASE_URL).path(LIVE_PATH);
     }
 
     @Override
     public void execute(ActionInput actionInput) {
-        System.out.println("Executing GoLiveOpenLP for" + actionInput.toString());
+        System.out.println("GoLiveOpenLP: " + actionInput.toString());
 
         Response authResponse = authorizationTarget.request()
                 .header("Content-Type", "application/json")
@@ -40,11 +41,8 @@ public class GoLiveOpenLP implements Action {
         return actionInput.toString();
     }
 
-
     private record AuthenticationRequestBody(String username, String password) {}
     private record AuthenticationResponse(String token) {}
     private record LiveRequestBody(String id) {}
-
-
 
 }

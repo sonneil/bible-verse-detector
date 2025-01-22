@@ -3,6 +3,7 @@ package com.bibledetector.flow;
 import com.bibledetector.exceptions.FlowAbortedException;
 import com.bibledetector.speechrecognition.SpeechRecognition;
 import com.bibledetector.steps.*;
+import com.bibledetector.steps.impl.actions.restclient.RestClient;
 import com.bibledetector.steps.types.StepInput;
 import com.bibledetector.steps.types.StepResult;
 
@@ -30,22 +31,26 @@ public class FlowHandler {
         this.execution = execution;
     }
 
-    public void start() throws LineUnavailableException, IOException {
-        speechRecognition.startRecognition(extractionInput -> {
-            try {
-                StepResult extractionResult = executeStep(extraction, extractionInput);
-                StepResult validationResult = executeStep(validation, validation.extractParam(extractionResult), extractionResult);
-                StepResult actionResult = executeStep(actions, actions.extractParam(validationResult), validationResult);
-                StepResult selectionResult = executeStep(selection, selection.extractParam(actionResult), actionResult);
-                StepResult executionResult = executeStep(execution, execution.extractParam(selectionResult), selectionResult);
+    public void start() {
+        try {
+            speechRecognition.startRecognition(extractionInput -> {
+                try {
+                    StepResult extractionResult = executeStep(extraction, extractionInput);
+                    StepResult validationResult = executeStep(validation, validation.extractParam(extractionResult), extractionResult);
+                    StepResult actionResult = executeStep(actions, actions.extractParam(validationResult), validationResult);
+                    StepResult selectionResult = executeStep(selection, selection.extractParam(actionResult), actionResult);
+                    StepResult executionResult = executeStep(execution, execution.extractParam(selectionResult), selectionResult);
 
-                logExecutionResult(executionResult);
-            } catch (FlowAbortedException e) {
-                System.out.println("Sent abort signal");
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        });
+                    logExecutionResult(executionResult);
+                } catch (FlowAbortedException | IllegalArgumentException e) {
+                    // TODO: Do something
+                }
+            });
+        } catch (IOException | LineUnavailableException e) {
+            throw new RuntimeException(e);
+        } finally {
+            RestClient.getClient().close();
+        }
     }
 
     private StepResult executeStep(Step step, StepInput stepInput) {
@@ -61,6 +66,6 @@ public class FlowHandler {
     }
 
     private void logExecutionResult(StepResult executionResult) {
-        System.out.println("Execution Result: " + executionResult.toString());
+        // TODO: Do something
     }
 }

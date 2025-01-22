@@ -42,8 +42,6 @@ public class SpeechRecognition {
                     if (bytesRead > 0) {
                         if (recognizer.acceptWaveForm(buffer, bytesRead)) {
                             ExtractionInput extractionInput = objectMapper.readValue(recognizer.getFinalResult(), ExtractionInput.class);
-                            System.out.println("Result: " + extractionInput.text());
-
                             if (END_SPEECH_RECOGNITION_PHRASE.equalsIgnoreCase(extractionInput.text())) {
                                 System.out.println("Finalizando reconocimiento de voz.");
                                 break;
@@ -51,8 +49,6 @@ public class SpeechRecognition {
 
                             flowExecution.execute(extractionInput);
 
-                        } else {
-                            //System.out.println("Partial: " + recognizer.getPartialResult());
                         }
                     }
                 }
