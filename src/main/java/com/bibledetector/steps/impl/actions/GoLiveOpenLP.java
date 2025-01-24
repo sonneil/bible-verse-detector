@@ -13,10 +13,12 @@ public class GoLiveOpenLP implements Action {
 
     private final WebTarget authorizationTarget;
     private final WebTarget liveTarget;
+    private final WebTarget serviceTarget;
 
     public GoLiveOpenLP() {
         this.authorizationTarget = RestClient.getClient().target(BASE_URL).path(AUTHORIZATION_PATH);
         this.liveTarget = RestClient.getClient().target(BASE_URL).path(LIVE_PATH);
+        this.serviceTarget = RestClient.getClient().target(BASE_URL).path(ADD_TO_SERVICE_PATH);
     }
 
     @Override
@@ -29,6 +31,11 @@ public class GoLiveOpenLP implements Action {
             AuthenticationResponse authenticationResponse = authResponse.readEntity(AuthenticationResponse.class);
 
             liveTarget.request()
+                    .header(AUTHORIZATION_HEADER, authenticationResponse.token())
+                    .header("Content-Type", "application/json")
+                    .post(Entity.json(new LiveRequestBody(formatActionInput(actionInput))));
+
+            serviceTarget.request()
                     .header(AUTHORIZATION_HEADER, authenticationResponse.token())
                     .header("Content-Type", "application/json")
                     .post(Entity.json(new LiveRequestBody(formatActionInput(actionInput))));
