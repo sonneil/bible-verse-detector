@@ -1,13 +1,14 @@
 package com.bibledetector.speechrecognition;
 
 import com.bibledetector.flow.FlowExecution;
+import com.bibledetector.steps.types.SpeechRecognitionOutput;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.bibledetector.steps.types.impl.ExtractionInput;
 import org.vosk.Model;
 import org.vosk.Recognizer;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
+import java.util.List;
 
 import static com.bibledetector.speechrecognition.config.SpeechConfiguration.*;
 
@@ -15,7 +16,7 @@ public class SpeechRecognition {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public void startRecognition(FlowExecution flowExecution) throws IOException, LineUnavailableException {
+    public void startRecognition(List<FlowExecution> flowExecutions) throws IOException, LineUnavailableException {
         try (Model model = new Model(MODEL_DIRECTORY)) {
 
             // Define audio format
@@ -41,14 +42,13 @@ public class SpeechRecognition {
                     int bytesRead = microphone.read(buffer, 0, buffer.length);
                     if (bytesRead > 0) {
                         if (recognizer.acceptWaveForm(buffer, bytesRead)) {
-                            ExtractionInput extractionInput = objectMapper.readValue(recognizer.getFinalResult(), ExtractionInput.class);
-                            if (END_SPEECH_RECOGNITION_PHRASE.equalsIgnoreCase(extractionInput.text())) {
+                            SpeechRecognitionOutput speechRecognitionOutput = objectMapper.readValue(recognizer.getFinalResult(), SpeechRecognitionOutput.class);
+                            if (END_SPEECH_RECOGNITION_PHRASE.equalsIgnoreCase(speechRecognitionOutput.text())) {
                                 System.out.println("Finalizando reconocimiento de voz.");
                                 break;
                             }
 
-                            flowExecution.execute(extractionInput);
-
+                            flowExecutions.forEach(flow -> flow.execute(speechRecognitionOutput));
                         }
                     }
                 }

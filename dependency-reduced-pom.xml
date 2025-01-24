@@ -19,7 +19,7 @@
               <createDependencyReducedPom>true</createDependencyReducedPom>
               <transformers>
                 <transformer>
-                  <mainClass>com.bibledetector.BibleVerseDetector</mainClass>
+                  <mainClass>com.bibledetector.BibleDetector</mainClass>
                 </transformer>
               </transformers>
             </configuration>
