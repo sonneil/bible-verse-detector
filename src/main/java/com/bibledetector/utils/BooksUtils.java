@@ -169,15 +169,8 @@ public class BooksUtils {
         bibleBooks.put("daniel", "Daniel");
         bibleBooks.put("oseas", "Oseas");
         bibleBooks.put("óseas", "Oseas");
-        bibleBooks.put("o sea", "Oseas");
-        bibleBooks.put("o seas", "Oseas");
-        bibleBooks.put("poseas", "Oseas");
-        bibleBooks.put("sea", "Oseas");
         bibleBooks.put("joel", "Joel");
         bibleBooks.put("amós", "Amós");
-        bibleBooks.put("amos", "Amós");
-        bibleBooks.put("ambos", "Amós");
-        bibleBooks.put("abdías", "Abdías");
         bibleBooks.put("jonás", "Jonás");
         bibleBooks.put("jonas", "Jonás");
         bibleBooks.put("miqueas", "Miqueas");
@@ -236,7 +229,7 @@ public class BooksUtils {
         text = StringUtils.remove(text, extractBookKeyFromText(text));
 
         List<Integer> numbersInText = extractNumbers(text);
-        if (numbersInText.isEmpty()) return "";
+        if (numbersInText.isEmpty()) return "1";
 
         return numbersInText.get(0).toString();
     }
@@ -245,9 +238,12 @@ public class BooksUtils {
         text = StringUtils.remove(text, extractBookKeyFromText(text));
         List<Integer> numbersInText = extractNumbers(text);
 
-        if (numbersInText.isEmpty()) return "";
-        if (numbersInText.size() == 1) return "";
-        if (numbersInText.size() == 2) return numbersInText.get(1).toString();
+        if (numbersInText.isEmpty() || (numbersInText.size() == 1)) {
+            return "1-";
+        }
+        if (numbersInText.size() == 2) {
+            return numbersInText.get(1).toString() + "-";
+        }
         return numbersInText.get(1).toString() + "-" + numbersInText.get(2).toString();
     }
 

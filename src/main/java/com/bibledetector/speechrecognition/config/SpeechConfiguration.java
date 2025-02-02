@@ -1,7 +1,7 @@
 package com.bibledetector.speechrecognition.config;
 
 public class SpeechConfiguration {
-    public final static String MODEL_DIRECTORY = "vosk-model-es";
+    public final static String MODEL_DIRECTORY = "vosk-model-small-es";
     public final static String END_SPEECH_RECOGNITION_PHRASE = "FINALIZAR RECONOCIMIENTO";
 
     // Audio config
