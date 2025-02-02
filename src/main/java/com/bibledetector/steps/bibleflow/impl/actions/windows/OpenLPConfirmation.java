@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class OpenLPConfirmation {
     public static void display(Action action, ActionInput actionInput) {
@@ -16,46 +18,74 @@ public class OpenLPConfirmation {
         Frame frame = new Frame("OpenLP LIVE");
 
         // Create a label with initial text
-        Label label = new Label("Proyectar en OpenLP el Texto: " + actionInput.toString() + "?" );
+        Label bibleTextLabel = new Label(actionInput.prettyString());
+
+        bibleTextLabel.setForeground(Color.white);
+        bibleTextLabel.setFont(new Font("Arial", Font.BOLD, 36));
 
         // Create a button with text "Toggle"
-        Button proyectarButton = new Button("Proyectar");
-        Button cancelButton = new Button("No Proyectar");
+        Button proyectarButton = new Button("PROYECTAR");
+        Button cancelButton = new Button("NO PROYECTAR");
 
-        // Button click event handler
-        proyectarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                action.execute(actionInput);
-                Frame frame = (Frame) proyectarButton.getParent();
-                frame.dispose();
-            }
-        });
-
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Frame frame = (Frame) cancelButton.getParent();
-                frame.dispose();
-            }
-        });
+        proyectarButton.setFont(new Font("Arial", Font.BOLD, 36));
+        cancelButton.setFont(new Font("Arial", Font.BOLD, 36));
 
         // Set layout manager for the frame (using FlowLayout for simplicity)
-        frame.setLayout(new FlowLayout());
+        frame.setLayout(new GridLayout(4, 1));
 
         // Add the label and button to the frame
-        frame.add(label);
+        frame.add(createCenteredPanel(bibleTextLabel));
         frame.add(proyectarButton);
         frame.add(cancelButton);
 
-        // Set the frame size and make it visible
-        frame.setSize(300, 100);
+        // Set the frame size, color and make it visible
+        int frameWidth = 800;
+        int frameHeight = 500;
+        frame.setSize(frameWidth, frameHeight);
+        frame.setBackground(Color.BLACK);
         frame.setVisible(true);
+
+        // Bring frame to front
+        frame.toFront();
+
+        // Position the frame at center
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - frameWidth) / 2;
+        int y = (screenSize.height - frameHeight) / 2;
+        frame.setLocation(x, y);
+
+        // Button click event handler
+        proyectarButton.addActionListener(e -> {
+            action.execute(actionInput);
+            frame.dispose();
+        });
+
+        cancelButton.addActionListener(e -> {
+            frame.dispose();
+        });
 
         // Add window closing behavior
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
+                frame.dispose();
             }
         });
+
+        // Create a timer to close the frame after 20 seconds (20000 ms)
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                frame.dispose();
+                System.out.println("Window closed after 20 seconds.");
+            }
+        }, 20000);
+    }
+
+    // Helper method to create a centered panel for each component
+    private static Panel createCenteredPanel(Component comp) {
+        Panel panel = new Panel();
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER)); // Center the component
+        panel.add(comp);
+        return panel;
     }
 }
