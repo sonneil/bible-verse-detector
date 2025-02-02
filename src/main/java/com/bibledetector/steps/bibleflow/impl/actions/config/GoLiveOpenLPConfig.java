@@ -11,5 +11,7 @@ public class GoLiveOpenLPConfig {
     public static final String OPENLP_USERNAME = "ciudadluz";
     public static final String OPENLP_PASSWORD = "ciudadluzremote";
 
-
+    // CONFIRMATION
+    public static final Boolean EXPECT_CONFIRMATION = true;
+    public static final long CONFIRMATION_WINDOW_TIMEOUT_SECONDS = 30;
 }

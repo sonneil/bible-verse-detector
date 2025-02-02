@@ -1,18 +1,19 @@
-package com.bibledetector.steps.bibleflow.impl.actions.windows;
+package com.bibledetector.steps.bibleflow.impl.actions;
 
+import com.bibledetector.steps.bibleflow.impl.actions.config.GoLiveOpenLPConfig;
 import com.bibledetector.steps.bibleflow.types.impl.ActionInput;
 import com.bibledetector.steps.bibleflow.types.step.Action;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class OpenLPConfirmation {
-    public static void display(Action action, ActionInput actionInput) {
+public class OpenLPConfirmation implements Action {
+
+    @Override
+    public void execute(ActionInput actionInput) {
         final boolean state;
         // Create the main frame (window)
         Frame frame = new Frame("OpenLP LIVE");
@@ -56,7 +57,7 @@ public class OpenLPConfirmation {
 
         // Button click event handler
         proyectarButton.addActionListener(e -> {
-            action.execute(actionInput);
+            new GoLiveOpenLP().execute(actionInput);
             frame.dispose();
         });
 
@@ -71,18 +72,17 @@ public class OpenLPConfirmation {
             }
         });
 
-        // Create a timer to close the frame after 20 seconds (20000 ms)
+        // Create a timer to close the frame after configured time in seconds
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
                 frame.dispose();
-                System.out.println("Window closed after 20 seconds.");
             }
-        }, 20000);
+        }, GoLiveOpenLPConfig.CONFIRMATION_WINDOW_TIMEOUT_SECONDS * 1000);
     }
 
     // Helper method to create a centered panel for each component
-    private static Panel createCenteredPanel(Component comp) {
+    private Panel createCenteredPanel(Component comp) {
         Panel panel = new Panel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER)); // Center the component
         panel.add(comp);

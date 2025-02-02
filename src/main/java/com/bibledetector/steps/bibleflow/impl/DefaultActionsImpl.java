@@ -4,7 +4,8 @@ import com.bibledetector.constants.ResultStatusCode;
 import com.bibledetector.steps.bibleflow.Actions;
 import com.bibledetector.steps.bibleflow.impl.actions.GoLiveOpenLP;
 import com.bibledetector.steps.bibleflow.impl.actions.GoLivePRS;
-import com.bibledetector.steps.bibleflow.impl.actions.windows.OpenLPConfirmation;
+import com.bibledetector.steps.bibleflow.impl.actions.OpenLPConfirmation;
+import com.bibledetector.steps.bibleflow.impl.actions.config.GoLiveOpenLPConfig;
 import com.bibledetector.steps.types.StepInput;
 import com.bibledetector.steps.types.StepResult;
 import com.bibledetector.steps.bibleflow.types.impl.ActionInput;
@@ -21,10 +22,14 @@ public class DefaultActionsImpl implements Actions {
         if (!(actionInput instanceof ActionInput)) return new ActionResult(null, null, null, ResultStatusCode.ABORT);
 
         List<Action> actions = new ArrayList<>();
-        actions.add(new GoLiveOpenLP());
+        if (GoLiveOpenLPConfig.EXPECT_CONFIRMATION) {
+            actions.add(new OpenLPConfirmation());
+        } else {
+            actions.add(new GoLiveOpenLP());
+        }
         actions.add(new GoLivePRS());
 
-        OpenLPConfirmation.display(new GoLiveOpenLP(), (ActionInput) actionInput);
+        actions.forEach(action -> action.execute((ActionInput) actionInput));
 
         return new ActionResult(
                 ((ActionInput) actionInput).book(),
