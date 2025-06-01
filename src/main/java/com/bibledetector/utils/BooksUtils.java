@@ -163,6 +163,7 @@ public class BooksUtils {
         bibleBooks.put("eclesiastés", "Eclesiastés");
         bibleBooks.put("cantares", "Cantares");
         bibleBooks.put("isaías", "Isaías");
+        bibleBooks.put("jeremias", "Jeremías");
         bibleBooks.put("jeremías", "Jeremías");
         bibleBooks.put("lamentaciones", "Lamentaciones");
         bibleBooks.put("ezequiel", "Ezequiel");

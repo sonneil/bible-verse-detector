@@ -13,5 +13,5 @@ public class GoLiveOpenLPConfig {
 
     // CONFIRMATION
     public static final Boolean EXPECT_CONFIRMATION = true;
-    public static final long CONFIRMATION_WINDOW_TIMEOUT_SECONDS = 30;
+    public static final long CONFIRMATION_WINDOW_TIMEOUT_SECONDS = 8;
 }

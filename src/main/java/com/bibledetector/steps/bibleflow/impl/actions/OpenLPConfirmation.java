@@ -18,7 +18,7 @@ public class OpenLPConfirmation implements Action {
         // Create the main frame (window)
         Frame frame = new Frame("OpenLP LIVE");
 
-        // Create a label with initial text
+        // Create a label with initial text  vb    g,gmc,cmnm 225856cklfnbklc vdc   xdmfllkf
         Label bibleTextLabel = new Label(actionInput.prettyString());
 
         bibleTextLabel.setForeground(Color.white);
@@ -48,6 +48,7 @@ public class OpenLPConfirmation implements Action {
 
         // Bring frame to front
         frame.toFront();
+        frame.setAlwaysOnTop(true);
 
         // Position the frame at center
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
