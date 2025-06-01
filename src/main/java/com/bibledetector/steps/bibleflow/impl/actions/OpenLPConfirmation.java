@@ -18,7 +18,7 @@ public class OpenLPConfirmation implements Action {
         // Create the main frame (window)
         Frame frame = new Frame("OpenLP LIVE");
 
-        // Create a label with initial text  vb    g,gmc,cmnm 225856cklfnbklc vdc   xdmfllkf
+        // Create a label with initial text
         Label bibleTextLabel = new Label(actionInput.prettyString());
 
         bibleTextLabel.setForeground(Color.white);
